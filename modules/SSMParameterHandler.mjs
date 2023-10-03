@@ -1,12 +1,13 @@
 import AWS from "aws-sdk";
 import dotenv from "dotenv";
-dotenv.config();
+//for local run
+/*dotenv.config();
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET,
   region: process.env.AWS_REGION,
-});
+});*/
 
 const ssm = new AWS.SSM();
 

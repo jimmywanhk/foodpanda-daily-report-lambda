@@ -1,28 +1,26 @@
+import { DateTime } from "luxon";
 import AWS from "aws-sdk";
 import fs from "fs";
 import dotenv from "dotenv";
-dotenv.config();
+//for local run
+/*dotenv.config();
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET,
   region: process.env.AWS_REGION,
-});
+});*/
 
 const ses = new AWS.SES();
 
-const currentYear = new Date().getFullYear();
-const currentMonth = new Date().getMonth() + 1;
-const currentDay = new Date().getDate();
-
-const createRawEmail = async () => {
-  const fromEmail = process.env.EMAIL_FROM;
-  const toEmail = process.env.EMAIL_TO;
+const createRawEmail = async (toEmails) => {
+  const fromEmail = ""; //process.env.EMAIL_FROM;
+  const toEmail = toEmails;
   const subject = "FoodPanda 熊貓每日報表";
   const body = "";
   const attachmentPath = "/tmp/temp.xlsx";
 
-  const fileName = `${currentYear}年${currentMonth}月${currentDay}日.xlsx`;
+  const fileName = `${DateTime.now().toFormat("yyyy年MM月dd日")}.xlsx`;
   const fileContent = fs.readFileSync(attachmentPath);
 
   const rawEmail =
@@ -44,10 +42,10 @@ const createRawEmail = async () => {
   return rawEmail;
 };
 
-const sendEmailWithAttachment = async () => {
+const sendEmailWithAttachment = async (toEmails) => {
   const params = {
     RawMessage: {
-      Data: await createRawEmail(),
+      Data: await createRawEmail(toEmails),
     },
   };
 

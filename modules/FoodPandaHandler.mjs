@@ -1,11 +1,6 @@
+import { DateTime } from "luxon";
 import axios from "axios";
 import fs from "fs";
-
-const currentDate = new Date();
-const currentYear = currentDate.getFullYear();
-const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
-const currentDay = String(currentDate.getDate()).padStart(2, "0");
-const formattedDate = `${currentYear}-${currentMonth}-${currentDay}`;
 
 const getToken = async (username, password) => {
   const response = await axios.post(
@@ -25,8 +20,8 @@ const createReport = async (accessToken) => {
       locale: "zh-Hant-HK",
       format: "XLSX",
       global_vendor_codes: ["FP_HK;yjui"],
-      from: formattedDate,
-      to: formattedDate,
+      from: DateTime.now().toFormat("yyyy-MM-dd"),
+      to: DateTime.now().toFormat("yyyy-MM-dd"),
     },
     {
       headers: {

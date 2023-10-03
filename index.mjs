@@ -10,10 +10,11 @@ export const handler = async (event) => {
   // TODO implement
   const username = await getSSMParameter("/FoodPanda/Username");
   const password = await getSSMParameter("/FoodPanda/Password");
+  const toEmails = await getSSMParameter("/FoodPanda/ToEmails");
   const response1 = await getToken(username, password);
   const response2 = await createReport(response1.accessToken);
   await downloadReport(response1.accessToken, response2.reportDownloadURL);
-  await sendEmailWithAttachment();
+  await sendEmailWithAttachment(toEmails);
 
   const response = {
     statusCode: 200,
@@ -22,13 +23,15 @@ export const handler = async (event) => {
   return response;
 };
 
+//for local run
 /*async function main() {
   const username = await getSSMParameter("/FoodPanda/Username");
   const password = await getSSMParameter("/FoodPanda/Password");
+  const toEmails = await getSSMParameter("/FoodPanda/ToEmails");
   const response1 = await getToken(username, password);
   const response2 = await createReport(response1.accessToken);
   await downloadReport(response1.accessToken, response2.reportDownloadURL);
-  await sendEmailWithAttachment();
+  await sendEmailWithAttachment(toEmails);
 }
 
 main();*/
