@@ -14,14 +14,21 @@ AWS.config.update({
 const ses = new AWS.SES();
 
 const createRawEmail = async (toEmails) => {
-  const fromEmail = ""; //process.env.EMAIL_FROM;
+  const fromEmail = "jimmyw@jimmythedeveloper.com"; //process.env.EMAIL_FROM;
   const toEmail = toEmails;
-  const subject = "FoodPanda 熊貓每日報表";
+  const subject = "型點 網上每日報表";
   const body = "";
-  const attachmentPath = "/tmp/temp.xlsx";
+  const attachmentPaths = ["/tmp/temp.csv", "/tmp/temp.xlsx"]; // Array of attachment paths
 
-  const fileName = `${DateTime.now().toFormat("yyyy年MM月dd日")}.xlsx`;
-  const fileContent = fs.readFileSync(attachmentPath);
+  const fileName1 = `Deliveroo 戶戶送每日報表 ${DateTime.now().toFormat(
+    "yyyy年MM月dd日"
+  )}.csv`;
+  const fileContent1 = fs.readFileSync(attachmentPaths[0]);
+
+  const fileName2 = `FoodPanda 熊貓每日報表 ${DateTime.now().toFormat(
+    "yyyy年MM月dd日"
+  )}.xlsx`;
+  const fileContent2 = fs.readFileSync(attachmentPaths[1]);
 
   const rawEmail =
     `From: ${fromEmail}\n` +
@@ -31,15 +38,22 @@ const createRawEmail = async (toEmails) => {
     `Content-Type: multipart/mixed; boundary="NextPart"\n\n` +
     `--NextPart\n` +
     `Content-Type: text/plain\n\n` +
-    `${body}\n\n` +
+    `${body}\n\n`;
+
+  const attachments =
     `--NextPart\n` +
     `Content-Type: application/octet-stream\n` +
-    `Content-Disposition: attachment; filename="${fileName}"\n` +
+    `Content-Disposition: attachment; filename="${fileName1}"\n` +
     `Content-Transfer-Encoding: base64\n\n` +
-    `${fileContent.toString("base64")}\n` +
+    `${fileContent1.toString("base64")}\n` +
+    `--NextPart\n` +
+    `Content-Type: application/octet-stream\n` +
+    `Content-Disposition: attachment; filename="${fileName2}"\n` +
+    `Content-Transfer-Encoding: base64\n\n` +
+    `${fileContent2.toString("base64")}\n` +
     `--NextPart--`;
 
-  return rawEmail;
+  return rawEmail + attachments;
 };
 
 const sendEmailWithAttachment = async (toEmails) => {
