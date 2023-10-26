@@ -10,13 +10,17 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET,
   region: process.env.AWS_REGION,
 });*/
+//
 
 const ses = new AWS.SES();
 
 const createRawEmail = async (toEmails) => {
   const fromEmail = "jimmyw@jimmythedeveloper.com"; //process.env.EMAIL_FROM;
   const toEmail = toEmails;
-  const subject = "型點 網上每日報表";
+  //const toEmail = "wankaho@hotmail.com"; //toEmails;
+  const subject = `型點 網上每日報表 ${DateTime.now().toFormat(
+    "yyyy年MM月dd日"
+  )}`;
   const body = "";
   const attachmentPaths = ["/tmp/temp.csv", "/tmp/temp.xlsx"]; // Array of attachment paths
 

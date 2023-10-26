@@ -8,6 +8,7 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET,
   region: process.env.AWS_REGION,
 });*/
+//
 
 const ssm = new AWS.SSM();
 

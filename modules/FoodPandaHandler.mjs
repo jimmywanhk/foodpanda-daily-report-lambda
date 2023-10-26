@@ -56,6 +56,7 @@ export default class FoodPandaHandler {
     }).catch((error) => {
       if (error.response) {
         console.log(error);
+        throw error;
       }
     });
 
