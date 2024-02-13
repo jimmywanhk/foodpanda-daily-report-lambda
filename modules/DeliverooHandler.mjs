@@ -20,7 +20,7 @@ export default class DeliverooHandler {
   createReport = async (accessToken) => {
     const response = await axios
       .post(
-        "https://restaurant-hub.deliveroo.net/api/reporting_platform/reports",
+        "https://partner-hub.deliveroo.com/api/reporting_platform/reports",
         {
           restaurant_drn_ids: ["b9e35025-601c-4a90-a234-656c47c827db"],
           time_zone: "Asia/Hong_Kong",
@@ -28,6 +28,7 @@ export default class DeliverooHandler {
           order_source: "core",
           start_date: DateTime.now().toFormat("yyyy-MM-dd"),
           end_date: DateTime.now().toFormat("yyyy-MM-dd"),
+          market: "HK",
         },
         {
           headers: {
@@ -48,7 +49,7 @@ export default class DeliverooHandler {
     console.log("drn_id=" + drn_id);
 
     const response = await axios({
-      url: `https://restaurant-hub.deliveroo.net/api/reporting_platform/reports/${drn_id}/download`,
+      url: `https://partner-hub.deliveroo.com/api/reporting_platform/reports/${drn_id}/download`,
       method: "GET",
       responseType: "stream",
       headers: {

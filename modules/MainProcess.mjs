@@ -9,6 +9,7 @@ export default class MainProcess {
     const username = await getSSMParameter("/YingDimDailyReport/Username");
     const password = await getSSMParameter("/YingDimDailyReport/Password");
     const toEmails = await getSSMParameter("/YingDimDailyReport/ToEmails");
+    //const toEmails = "wankaho@hotmail.com"; //await getSSMParameter("/YingDimDailyReport/ToEmails");
 
     //Download Deliveroo Report
     const deliverooHandler = new DeliverooHandler();
